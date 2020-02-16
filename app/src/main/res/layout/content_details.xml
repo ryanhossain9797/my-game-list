@@ -8,15 +8,12 @@
     tools:context=".DetailsActivity"
     tools:showIn="@layout/activity_details">
 
-    <ScrollView
-        android:id="@+id/details_scrollview"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_details"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
-
-        <include layout="@layout/game_details" />
-    </ScrollView>
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

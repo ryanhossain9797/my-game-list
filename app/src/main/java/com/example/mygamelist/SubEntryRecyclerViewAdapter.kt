@@ -29,8 +29,8 @@ class SubEntryViewHolder(view: View): DetailsViewHolder(view){
 }
 
 class SubEntryRecyclerViewAdapter(
-    private val headEntry: EntryModel,
-    private val subEntryModelList: ArrayList<SubEntryModel>): RecyclerView.Adapter<DetailsViewHolder>(){
+    private var headEntry: EntryModel,
+    private var subEntryModelList: ArrayList<SubEntryModel>): RecyclerView.Adapter<DetailsViewHolder>(){
 
     private val TAG = "SubEntryRecyclerV"
 
@@ -77,6 +77,11 @@ class SubEntryRecyclerViewAdapter(
             newHolder.username.text = subEntry.username
             newHolder.comment.text = subEntry.comment
         }
+    }
 
+    fun loadNewData(newHeadEntry:EntryModel, newSubEntryModelList: ArrayList<SubEntryModel>){
+        headEntry = newHeadEntry
+        subEntryModelList = newSubEntryModelList
+        notifyDataSetChanged()
     }
 }

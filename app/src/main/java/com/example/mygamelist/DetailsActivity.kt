@@ -5,16 +5,20 @@ import android.os.Bundle
 import android.util.Log
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.main.activity_details.*
 import kotlinx.android.synthetic.main.content_details.*
+import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.game_details.*
 import org.json.JSONException
 
 class DetailsActivity : AppCompatActivity(),OnSingleDataAvailableRecepient,OnDownloadCompleteRecepient{
 
     private val TAG = "DetailsActivity"
+
+    val detailsRecyclerViewAdapter = SubEntryRecyclerViewAdapter(EntryModel("","","","https://tada"),ArrayList<SubEntryModel>())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +30,11 @@ class DetailsActivity : AppCompatActivity(),OnSingleDataAvailableRecepient,OnDow
                 .setAction("Action", null).show()
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        //-----------Configure recyclerview
+        recycler_view_details.layoutManager = LinearLayoutManager(this)
+//        recycler_view_details.addOnItemTouchListener(RecyclerItemClickListener(this,recycler_view_games,this))
+        recycler_view_details.adapter = detailsRecyclerViewAdapter
 
         val rawData = GetRawData(this)
         val _id = intent.getStringExtra("_id")
@@ -67,13 +76,7 @@ class DetailsActivity : AppCompatActivity(),OnSingleDataAvailableRecepient,OnDow
     //---------------------------------------------------------------------
     override fun onSingleDataAvailable(data: EntryModel) {
         Log.d(TAG,"onDataAvailable: started with ${data.title} entry")
-        title_details.text = data.title
-        content_details.text = data.content
-        Picasso.get()
-            .load(data.imgurl)
-            .error(R.drawable.placeholder)
-            .placeholder(R.drawable.placeholder)
-            .into(game_photo_details)
+        detailsRecyclerViewAdapter.loadNewData(data, getDummyComments())
     }
     //-----------When getting JSON from data has error
     override fun onError(err: JSONException) {
@@ -82,4 +85,13 @@ class DetailsActivity : AppCompatActivity(),OnSingleDataAvailableRecepient,OnDow
     //---------------------------------------------------------------------
 
 
+}
+
+
+fun getDummyComments(): ArrayList<SubEntryModel>{
+    val dummyComments = ArrayList<SubEntryModel>()
+    dummyComments.add(SubEntryModel("","dummy","Lorem Ipsum"))
+    dummyComments.add(SubEntryModel("","dummy2","Lorem Ipsum Dolor Sit Amet"))
+    dummyComments.add(SubEntryModel("","pickle rick","Wubba lubba dub dub"))
+    return dummyComments
 }
