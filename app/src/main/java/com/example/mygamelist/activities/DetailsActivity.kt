@@ -1,7 +1,9 @@
 package com.example.mygamelist.activities
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
@@ -27,37 +29,83 @@ class DetailsActivity : AppCompatActivity(),
 
     private val TAG = "DetailsActivity"
 
-    val detailsRecyclerViewAdapter =
+    private var currentEntry = EntryModel("","","No Data Available","https://tada")
+
+    private val detailsRecyclerViewAdapter =
         SubEntryRecyclerViewAdapter(
-            EntryModel(
-                "",
-                "",
-                "",
-                "https://tada"
-            ), ArrayList<SubEntryModel>()
+            currentEntry, ArrayList<SubEntryModel>()
         )
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d(TAG,"onCreate:")
+        if(savedInstanceState!=null){
+            Log.d(TAG,"saved instatnce state exists")
+            currentEntry = savedInstanceState.getParcelable("saved")!!
+        }
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
         setSupportActionBar(toolbar)
-
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        fab.setOnClickListener { _ ->
+            if(currentEntry.title.isNotEmpty()){
+                val intent = Intent(this,ReviewActivity::class.java)
+                intent.putExtra("title",currentEntry.title)
+                intent.putExtra("_id",currentEntry._id)
+                startActivity(intent)
+            }
+
+        }
+
 
         //-----------Configure recyclerview
         recycler_view_details.layoutManager = LinearLayoutManager(this)
 //        recycler_view_details.addOnItemTouchListener(RecyclerItemClickListener(this,recycler_view_games,this))
         recycler_view_details.adapter = detailsRecyclerViewAdapter
 
-
         val _id = intent.getStringExtra("_id")
-//        val uri = createUri("http://118.179.70.140:3693/articles/$_id")
-//        rawData.execute(uri)
-        AndroidNetworking.get("http://118.179.70.140:3693/articles/$_id").build()
+        getData(_id)
+
+    }
+
+    override fun onStart() {
+        Log.d(TAG,"onStart:")
+        super.onStart()
+    }
+
+    override fun onResume() {
+        Log.d(TAG,"onResume:")
+        super.onResume()
+    }
+
+    override fun onPause() {
+        Log.d(TAG,"onPause:")
+        super.onPause()
+    }
+
+    override fun onStop() {
+        Log.d(TAG,"onStop:")
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        Log.d(TAG,"onDestroy:")
+        super.onDestroy()
+    }
+
+
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        Log.d(TAG,"onSavedInstanceState:")
+        outState.putParcelable("saved",currentEntry)
+        super.onSaveInstanceState(outState)
+    }
+
+
+
+    fun getData(id: String?){
+        AndroidNetworking.get("http://118.179.70.140:3693/articles/$id").build()
             .getAsString(object: StringRequestListener {
                 override fun onResponse(response: String) {
                     Log.d(TAG,"onResponse: got raw data in lib $response")
@@ -72,7 +120,6 @@ class DetailsActivity : AppCompatActivity(),
                     Log.e(TAG,"onResponse: download failed")
                 }
             })
-
     }
 
     //----------Create a url
@@ -121,6 +168,7 @@ class DetailsActivity : AppCompatActivity(),
     //---------------------------------------------------------------------
     override fun onSingleDataAvailable(data: EntryModel) {
         Log.d(TAG,"onSingleDataAvailable: started with ${data.title} entry")
+        currentEntry = data
         detailsRecyclerViewAdapter.loadNewHeadData(data)
 //        val rawData = GetRawData(this)
 //        val uri = createUriWithEntryId("http://118.179.70.140:3693/comments",data._id)

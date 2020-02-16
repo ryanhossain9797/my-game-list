@@ -13,6 +13,15 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activities.ReviewActivity"
+            android:label="@string/title_activity_review"
+            android:parentActivityName=".activities.DetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.mygamelist.activities.DetailsActivity"/>
+        </activity>
+        <activity
             android:name=".activities.DetailsActivity"
             android:label="@string/title_activity_details"
             android:parentActivityName=".activities.MainActivity"
@@ -27,9 +36,17 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter android:label="sampleIntentFilter">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "example://gizmos” -->
+                <data android:scheme="118.179.70.140:3693/articles"
+                    android:host="http://" />
+            </intent-filter>
+
         </activity>
     </application>
 
