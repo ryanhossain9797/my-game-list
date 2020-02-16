@@ -59,6 +59,7 @@ class SubEntryRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: DetailsViewHolder, position: Int) {
+        Log.d(TAG,"onBindViewHolder: called with position: $position")
         if(position==0){
             var newHolder = holder as EntryDetailsViewHolder
             Picasso.get()
@@ -71,7 +72,6 @@ class SubEntryRecyclerViewAdapter(
             newHolder.content.text = headEntry.content
         }
         else{
-            Log.d(TAG, "onBindViewHolder: called")
             var newHolder = holder as SubEntryViewHolder
             val subEntry = subEntryModelList[position-1]
             newHolder.username.text = subEntry.username
@@ -80,6 +80,7 @@ class SubEntryRecyclerViewAdapter(
     }
 
     fun loadNewData(newHeadEntry:EntryModel, newSubEntryModelList: ArrayList<SubEntryModel>){
+        Log.d(TAG,"loadNewData: called with title: ${newHeadEntry.title}")
         headEntry = newHeadEntry
         subEntryModelList = newSubEntryModelList
         notifyDataSetChanged()
