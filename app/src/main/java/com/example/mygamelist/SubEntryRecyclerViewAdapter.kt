@@ -62,6 +62,8 @@ class SubEntryRecyclerViewAdapter(
         Log.d(TAG,"onBindViewHolder: called with position: $position")
         if(position==0){
             var newHolder = holder as EntryDetailsViewHolder
+
+
             Picasso.get()
                 .load(headEntry.imgurl)
                 .error(R.drawable.placeholder)
@@ -79,9 +81,14 @@ class SubEntryRecyclerViewAdapter(
         }
     }
 
-    fun loadNewData(newHeadEntry:EntryModel, newSubEntryModelList: ArrayList<SubEntryModel>){
-        Log.d(TAG,"loadNewData: called with title: ${newHeadEntry.title}")
+    fun loadNewHeadData(newHeadEntry:EntryModel){
+        Log.d(TAG,"loadNewHeadData: called with title: ${newHeadEntry.title}")
         headEntry = newHeadEntry
+        notifyDataSetChanged()
+    }
+
+    fun loadNewSubEntryData(newSubEntryModelList: ArrayList<SubEntryModel>){
+        Log.d(TAG,"loadNewSubEntryData: called with ${newSubEntryModelList.size} sub entries")
         subEntryModelList = newSubEntryModelList
         notifyDataSetChanged()
     }

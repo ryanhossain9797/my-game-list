@@ -16,22 +16,22 @@ class GetEntryListJsonData(private val listener:
 
     override fun doInBackground(vararg params: String): ArrayList<EntryModel> {
         Log.d(TAG,"doInBackground starts")
-        val photoList = ArrayList<EntryModel>();
+        val entryList = ArrayList<EntryModel>();
         try{
             val jsonData = JSONObject(params[0])
             val itemsArray = jsonData.getJSONArray("articles")
             for(i in 0 until itemsArray.length()){
-                val photoJSON = itemsArray.getJSONObject(i)
-                val _id = photoJSON.getString("_id")
-                val title = photoJSON.getString("title")
-                val content = photoJSON.getString("content")
-                val imgurl = photoJSON.getString("imgurl")
+                val entryJSON = itemsArray.getJSONObject(i)
+                val _id = entryJSON.getString("_id")
+                val title = entryJSON.getString("title")
+                val content = entryJSON.getString("content")
+                val imgurl = entryJSON.getString("imgurl")
 
 
-                val photo = EntryModel(_id, title, content, imgurl)
+                val entry = EntryModel(_id, title, content, imgurl)
 
-                photoList.add(photo)
-                Log.d(TAG,"doInBackground $photo")
+                entryList.add(entry)
+                Log.d(TAG,"doInBackground $entry")
             }
         }
         catch(err: JSONException){
@@ -41,7 +41,7 @@ class GetEntryListJsonData(private val listener:
             cancel(true)
             listener.onError(err)
         }
-        return photoList
+        return entryList
     }
 
     override fun onPostExecute(result: ArrayList<EntryModel>) {

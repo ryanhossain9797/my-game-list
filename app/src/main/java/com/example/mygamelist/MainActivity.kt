@@ -10,11 +10,15 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.androidnetworking.AndroidNetworking
+import com.androidnetworking.error.ANError
+import com.androidnetworking.interfaces.JSONObjectRequestListener
+import com.androidnetworking.interfaces.StringRequestListener
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import org.json.JSONException
 
-class MainActivity : AppCompatActivity(),OnDataListAvailableRecepient,OnDownloadCompleteRecepient,OnRecyclerClickListener {
+class MainActivity : AppCompatActivity(),OnDataListAvailableRecepient,OnRecyclerClickListener {
 
     private var TAG = "MainActivity"
 
@@ -31,6 +35,7 @@ class MainActivity : AppCompatActivity(),OnDataListAvailableRecepient,OnDownload
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
+        AndroidNetworking.initialize(applicationContext)
 
         //-----------Configure recyclerview
         recycler_view_games.layoutManager = LinearLayoutManager(this)
@@ -39,9 +44,23 @@ class MainActivity : AppCompatActivity(),OnDataListAvailableRecepient,OnDownload
 
 
         //start fetching data, retrieved in onDownloadComplete method below
-        val rawData = GetRawData(this)
-        val url = createUri("http://118.179.70.140:3693/articles")
-        rawData.execute(url)
+        //val rawData = GetRawData(this)
+        //val url = createUri("http://118.179.70.140:3693/articles")
+        //rawData.execute(url)
+
+        AndroidNetworking.get("http://118.179.70.140:3693/articles").build()
+            .getAsString(object: StringRequestListener{
+                override fun onResponse(response: String) {
+                    Log.d(TAG,"onResponse: got raw data in lib $response")
+                    val jsonData = GetEntryListJsonData(this@MainActivity)
+                    jsonData.execute(response)
+                }
+
+                override fun onError(anError: ANError?) {
+                    Log.e(TAG,"onResponse: download failed")
+                }
+            })
+
 
     }
 
@@ -71,12 +90,12 @@ class MainActivity : AppCompatActivity(),OnDataListAvailableRecepient,OnDownload
 
     //----------Create a url
     //---------------------------------------------------------------------
-    private fun createUri(baseUri:String):String{
-        Log.d(TAG,"createUri: start")
-        return Uri.parse(baseUri)
-            .buildUpon()
-            .build().toString()
-    }
+//    private fun createUri(baseUri:String):String{
+//        Log.d(TAG,"createUri: start")
+//        return Uri.parse(baseUri)
+//            .buildUpon()
+//            .build().toString()
+//    }
     //---------------------------------------------------------------------
 
 
@@ -84,16 +103,16 @@ class MainActivity : AppCompatActivity(),OnDataListAvailableRecepient,OnDownload
 
     //-----------When Raw data download completes
     //---------------------------------------------------------------------
-    override fun onDownloadComplete(data: String, status: DownloadStatus) {
-        if(status == DownloadStatus.OK){
-            Log.d(TAG,"onDownloadComplete: got raw data ")
-            val jsonData = GetEntryListJsonData(this)
-            jsonData.execute(data)
-        }
-        else{
-            Log.e(TAG,"onDownloadComplete: download failed")
-        }
-    }
+//    override fun onDownloadComplete(data: String, status: DownloadStatus) {
+//        if(status == DownloadStatus.OK){
+//            Log.d(TAG,"onDownloadComplete: got raw data ")
+//            val jsonData = GetEntryListJsonData(this)
+//            jsonData.execute(data)
+//        }
+//        else{
+//            Log.e(TAG,"onDownloadComplete: download failed")
+//        }
+//    }
     //---------------------------------------------------------------------
 
 
