@@ -1,8 +1,9 @@
-package com.example.mygamelist
+package com.example.mygamelist.utility
 
 
 import android.os.AsyncTask
 import android.util.Log
+import com.example.mygamelist.models.EntryModel
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -12,12 +13,13 @@ interface OnSingleDataAvailableRecepient{
 }
 
 class GetSingleEntryJsonData(private val listener:
-                           OnSingleDataAvailableRecepient):AsyncTask<String,Void,EntryModel>() {
+                             OnSingleDataAvailableRecepient
+):AsyncTask<String,Void, EntryModel>() {
     private val TAG = "GetSingleEntryJs"
 
-    override fun doInBackground(vararg params: String): EntryModel{
+    override fun doInBackground(vararg params: String): EntryModel {
         Log.d(TAG,"doInBackground starts")
-        var entry = EntryModel("","","","")
+        var entry = EntryModel("", "", "", "")
         try{
             val jsonData = JSONObject(params[0])
                 val photoJSON = jsonData.getJSONObject("article")
@@ -27,7 +29,12 @@ class GetSingleEntryJsonData(private val listener:
                 val imgurl = photoJSON.getString("imgurl")
 
 
-                entry = EntryModel(_id, title, content, imgurl)
+                entry = EntryModel(
+                    _id,
+                    title,
+                    content,
+                    imgurl
+                )
                 Log.d(TAG,"doInBackground $entry")
         }
         catch(err: JSONException){

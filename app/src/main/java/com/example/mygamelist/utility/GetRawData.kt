@@ -1,4 +1,4 @@
-package com.example.mygamelist
+package com.example.mygamelist.utility
 
 //---------------------------This is not used any more, Replaced by android networking lib
 //

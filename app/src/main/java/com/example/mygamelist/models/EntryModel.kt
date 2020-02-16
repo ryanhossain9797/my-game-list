@@ -1,4 +1,4 @@
-package com.example.mygamelist
+package com.example.mygamelist.models
 
 import android.os.Parcel
 import android.os.Parcelable

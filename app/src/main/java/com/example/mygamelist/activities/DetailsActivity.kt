@@ -1,4 +1,4 @@
-package com.example.mygamelist
+package com.example.mygamelist.activities
 
 import android.net.Uri
 import android.os.Bundle
@@ -9,15 +9,33 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.StringRequestListener
+import com.example.mygamelist.R
+import com.example.mygamelist.adapters.SubEntryRecyclerViewAdapter
+import com.example.mygamelist.models.EntryModel
+import com.example.mygamelist.models.SubEntryModel
+import com.example.mygamelist.utility.GetSingleEntryJsonData
+import com.example.mygamelist.utility.GetSubEntryListJsonData
+import com.example.mygamelist.utility.OnSingleDataAvailableRecepient
+import com.example.mygamelist.utility.OnSubDataListAvailableRecepient
 import kotlinx.android.synthetic.main.activity_details.*
 import kotlinx.android.synthetic.main.content_details.*
 import org.json.JSONException
 
-class DetailsActivity : AppCompatActivity(),OnSingleDataAvailableRecepient,OnSubDataListAvailableRecepient{
+class DetailsActivity : AppCompatActivity(),
+    OnSingleDataAvailableRecepient,
+    OnSubDataListAvailableRecepient {
 
     private val TAG = "DetailsActivity"
 
-    val detailsRecyclerViewAdapter = SubEntryRecyclerViewAdapter(EntryModel("","","","https://tada"),ArrayList<SubEntryModel>())
+    val detailsRecyclerViewAdapter =
+        SubEntryRecyclerViewAdapter(
+            EntryModel(
+                "",
+                "",
+                "",
+                "https://tada"
+            ), ArrayList<SubEntryModel>()
+        )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +61,10 @@ class DetailsActivity : AppCompatActivity(),OnSingleDataAvailableRecepient,OnSub
             .getAsString(object: StringRequestListener {
                 override fun onResponse(response: String) {
                     Log.d(TAG,"onResponse: got raw data in lib $response")
-                    val jsonData = GetSingleEntryJsonData(this@DetailsActivity)
+                    val jsonData =
+                        GetSingleEntryJsonData(
+                            this@DetailsActivity
+                        )
                     jsonData.execute(response)
                 }
 
@@ -109,7 +130,10 @@ class DetailsActivity : AppCompatActivity(),OnSingleDataAvailableRecepient,OnSub
             .getAsString(object: StringRequestListener {
                 override fun onResponse(response: String) {
                     Log.d(TAG,"onResponse: got raw data in lib $response")
-                    val jsonData = GetSubEntryListJsonData(this@DetailsActivity)
+                    val jsonData =
+                        GetSubEntryListJsonData(
+                            this@DetailsActivity
+                        )
                     jsonData.execute(response)
                 }
 

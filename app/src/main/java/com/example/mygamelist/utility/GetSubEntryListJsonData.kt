@@ -1,7 +1,8 @@
-package com.example.mygamelist
+package com.example.mygamelist.utility
 
 import android.os.AsyncTask
 import android.util.Log
+import com.example.mygamelist.models.SubEntryModel
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -11,7 +12,8 @@ interface OnSubDataListAvailableRecepient{
 }
 
 class GetSubEntryListJsonData(private val listener:
-                           OnSubDataListAvailableRecepient):AsyncTask<String,Void,ArrayList<SubEntryModel>>() {
+                              OnSubDataListAvailableRecepient
+):AsyncTask<String,Void,ArrayList<SubEntryModel>>() {
     private val TAG = "GetSubEntryListJson"
 
     override fun doInBackground(vararg params: String): ArrayList<SubEntryModel> {
@@ -28,7 +30,11 @@ class GetSubEntryListJsonData(private val listener:
                 val comment = subEntryJSON.getString("comment")
 
 
-                val subEntry = SubEntryModel(_id, username, comment)
+                val subEntry = SubEntryModel(
+                    _id,
+                    username,
+                    comment
+                )
 
                 subEntryList.add(subEntry)
                 Log.d(TAG,"doInBackground ${subEntry.comment}")

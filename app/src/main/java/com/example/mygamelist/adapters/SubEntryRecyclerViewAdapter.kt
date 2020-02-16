@@ -1,4 +1,4 @@
-package com.example.mygamelist
+package com.example.mygamelist.adapters
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mygamelist.models.EntryModel
+import com.example.mygamelist.R
+import com.example.mygamelist.models.SubEntryModel
 import com.squareup.picasso.Picasso
 
 
@@ -81,7 +84,7 @@ class SubEntryRecyclerViewAdapter(
         }
     }
 
-    fun loadNewHeadData(newHeadEntry:EntryModel){
+    fun loadNewHeadData(newHeadEntry: EntryModel){
         Log.d(TAG,"loadNewHeadData: called with title: ${newHeadEntry.title}")
         headEntry = newHeadEntry
         notifyDataSetChanged()

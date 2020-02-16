@@ -1,7 +1,8 @@
-package com.example.mygamelist
+package com.example.mygamelist.utility
 
 import android.os.AsyncTask
 import android.util.Log
+import com.example.mygamelist.models.EntryModel
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -11,7 +12,8 @@ interface OnDataListAvailableRecepient{
 }
 
 class GetEntryListJsonData(private val listener:
-                        OnDataListAvailableRecepient):AsyncTask<String,Void,ArrayList<EntryModel>>() {
+                           OnDataListAvailableRecepient
+):AsyncTask<String,Void,ArrayList<EntryModel>>() {
     private val TAG = "GetFlickrJsonData"
 
     override fun doInBackground(vararg params: String): ArrayList<EntryModel> {
@@ -28,7 +30,12 @@ class GetEntryListJsonData(private val listener:
                 val imgurl = entryJSON.getString("imgurl")
 
 
-                val entry = EntryModel(_id, title, content, imgurl)
+                val entry = EntryModel(
+                    _id,
+                    title,
+                    content,
+                    imgurl
+                )
 
                 entryList.add(entry)
                 Log.d(TAG,"doInBackground $entry")

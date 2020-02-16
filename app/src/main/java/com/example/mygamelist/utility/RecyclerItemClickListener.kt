@@ -1,5 +1,5 @@
 //---------------------------This item click listener is ADDED to the recyclerview
-package com.example.mygamelist
+package com.example.mygamelist.utility
 
 import android.content.Context
 import android.util.Log
@@ -17,7 +17,8 @@ interface OnRecyclerClickListener{
 }
 
 class RecyclerItemClickListener(context: Context, recyclerView: RecyclerView,                //of type SimpleOnItemTouchListener
-                                private val listener: OnRecyclerClickListener): RecyclerView.SimpleOnItemTouchListener(){
+                                private val listener: OnRecyclerClickListener
+): RecyclerView.SimpleOnItemTouchListener(){
     private val TAG = "RecyclerItemClickLis"
                                                                 //Anonymous implementation of SimpleOnGestureListener
     private val gestureDetector = GestureDetectorCompat(context, object : GestureDetector.SimpleOnGestureListener(){

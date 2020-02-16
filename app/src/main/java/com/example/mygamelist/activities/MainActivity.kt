@@ -1,7 +1,6 @@
-package com.example.mygamelist
+package com.example.mygamelist.activities
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import com.google.android.material.snackbar.Snackbar
@@ -13,17 +12,27 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.StringRequestListener
+import com.example.mygamelist.R
+import com.example.mygamelist.adapters.EntryRecyclerViewAdapter
+import com.example.mygamelist.models.EntryModel
+import com.example.mygamelist.utility.GetEntryListJsonData
+import com.example.mygamelist.utility.OnDataListAvailableRecepient
+import com.example.mygamelist.utility.OnRecyclerClickListener
+import com.example.mygamelist.utility.RecyclerItemClickListener
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import org.json.JSONException
 
-class MainActivity : AppCompatActivity(),OnDataListAvailableRecepient,OnRecyclerClickListener {
+class MainActivity : AppCompatActivity(),
+    OnDataListAvailableRecepient,
+    OnRecyclerClickListener {
 
     private var TAG = "MainActivity"
 
 
     //---------Adapter for recycler view, required globally to load new data into recyclerview
-    val gameRecyclerViewAdapter = EntryRecyclerViewAdapter(ArrayList<EntryModel>())
+    val gameRecyclerViewAdapter =
+        EntryRecyclerViewAdapter(ArrayList<EntryModel>())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +47,13 @@ class MainActivity : AppCompatActivity(),OnDataListAvailableRecepient,OnRecycler
 
         //-----------Configure recyclerview
         recycler_view_games.layoutManager = LinearLayoutManager(this)
-        recycler_view_games.addOnItemTouchListener(RecyclerItemClickListener(this,recycler_view_games,this))
+        recycler_view_games.addOnItemTouchListener(
+            RecyclerItemClickListener(
+                this,
+                recycler_view_games,
+                this
+            )
+        )
         recycler_view_games.adapter = gameRecyclerViewAdapter
 
 
@@ -51,7 +66,8 @@ class MainActivity : AppCompatActivity(),OnDataListAvailableRecepient,OnRecycler
             .getAsString(object: StringRequestListener{
                 override fun onResponse(response: String) {
                     Log.d(TAG,"onResponse: got raw data in lib $response")
-                    val jsonData = GetEntryListJsonData(this@MainActivity)
+                    val jsonData =
+                        GetEntryListJsonData(this@MainActivity)
                     jsonData.execute(response)
                 }
 
@@ -138,7 +154,7 @@ class MainActivity : AppCompatActivity(),OnDataListAvailableRecepient,OnRecycler
         Log.d(TAG,"onItemClick: on item $position")
         val game = gameRecyclerViewAdapter.getEntryModel(position)
         if(game!=null){
-            val intent = Intent(this,DetailsActivity::class.java)
+            val intent = Intent(this, DetailsActivity::class.java)
             intent.putExtra("_id",game._id)
             startActivity(intent)
         }
