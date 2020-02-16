@@ -9,12 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.StringRequestListener
-import com.squareup.picasso.Picasso
-
 import kotlinx.android.synthetic.main.activity_details.*
 import kotlinx.android.synthetic.main.content_details.*
-import kotlinx.android.synthetic.main.content_main.*
-import kotlinx.android.synthetic.main.game_details.*
 import org.json.JSONException
 
 class DetailsActivity : AppCompatActivity(),OnSingleDataAvailableRecepient,OnSubDataListAvailableRecepient{
@@ -58,7 +54,7 @@ class DetailsActivity : AppCompatActivity(),OnSingleDataAvailableRecepient,OnSub
 
     }
 
-//    //----------Create a url
+    //----------Create a url
 //    //---------------------------------------------------------------------
 //    private fun createUri(baseUri:String):String{
 //        Log.d(TAG,"createUri: start")
@@ -66,7 +62,7 @@ class DetailsActivity : AppCompatActivity(),OnSingleDataAvailableRecepient,OnSub
 //            .buildUpon()
 //            .build().toString()
 //    }
-//    //---------------------------------------------------------------------
+    //---------------------------------------------------------------------
 
 
     //----------Create a url
