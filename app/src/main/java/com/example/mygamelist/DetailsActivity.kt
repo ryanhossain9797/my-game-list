@@ -9,6 +9,7 @@ import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.main.activity_details.*
 import kotlinx.android.synthetic.main.content_details.*
+import kotlinx.android.synthetic.main.game_details.*
 import org.json.JSONException
 
 class DetailsActivity : AppCompatActivity(),OnSingleDataAvailableRecepient,OnDownloadCompleteRecepient{
